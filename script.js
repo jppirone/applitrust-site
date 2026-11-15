@@ -1,10 +1,8 @@
-/* Applitrust home page script: the private testing pop-up, the narrow-screen menu and the scroll reveal. Nothing here loads anything. */
+/* Applitrust home page script: the app buttons, the narrow-screen menu and the scroll reveal. Nothing here loads anything. */
 
-/* LAUNCH SWITCH. While this is an empty string, the Log in, Get started, Build your record and Open Applitrust
-   buttons open the "private testing" pop-up (and without JavaScript they are plain email links).
-   To go live, put the full address of the app between the quotes (starting with https://). The same buttons then
-   go there and the pop-up is not used. */
-const APP_URL = '';
+/* This is the full address of the app. The Log in, Get started, Build your record and Open Applitrust
+   buttons go there (the same address is written in the page itself, so they also work without JavaScript). */
+const APP_URL = 'https://app.applitrust.com';
 
 (function () {
   'use strict';
@@ -37,39 +35,9 @@ const APP_URL = '';
     if (wide.addEventListener) { wide.addEventListener('change', onWide); } else if (wide.addListener) { wide.addListener(onWide); }
   }
 
-  /* ---------- the app buttons: pop-up now, the app address after launch ---------- */
+  /* ---------- the app buttons ---------- */
   var appLinks = Array.prototype.slice.call(document.querySelectorAll('[data-app-link]'));
-  var dialog = document.getElementById('beta-dialog');
-  if (APP_URL) {
-    // launched: the same buttons go to the app, the pop-up is not used
-    appLinks.forEach(function (a) { a.setAttribute('href', APP_URL); });
-  } else if (dialog && typeof dialog.showModal === 'function') {
-    var opener = null;
-    appLinks.forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
-        e.preventDefault();
-        opener = a;
-        dialog.showModal();
-      });
-    });
-    var closeBtn = dialog.querySelector('[data-close]');
-    if (closeBtn) { closeBtn.addEventListener('click', function () { dialog.close(); }); }
-    // Tab and Shift+Tab go round inside the pop-up (a native dialog would otherwise let focus slip out to the browser's own controls)
-    dialog.addEventListener('keydown', function (e) {
-      if (e.key !== 'Tab') { return; }
-      var items = dialog.querySelectorAll('a[href], button');
-      if (!items.length) { return; }
-      var first = items[0], last = items[items.length - 1];
-      if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    });
-    // a click on the dimmed area outside the box closes it too
-    dialog.addEventListener('click', function (e) { if (e.target === dialog) { dialog.close(); } });
-    // Escape and Close both end here: put focus back on the button that opened the pop-up
-    dialog.addEventListener('close', function () { if (opener && opener.focus) { opener.focus(); } opener = null; });
-  }
-  // (if the browser cannot show a dialog, the buttons stay plain email links)
+  appLinks.forEach(function (a) { a.setAttribute('href', APP_URL); });
 
   /* ---------- scroll reveal ---------- */
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

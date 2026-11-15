@@ -247,14 +247,6 @@ main:focus { outline: none; }
 .page-short { min-height: 100vh; display: flex; flex-direction: column; }
 .page-short main { flex: 1 0 auto; width: 100%; }
 
-/* private testing pop-up (a native dialog element) */
-.beta-dialog { width: min(480px, calc(100vw - 32px)); max-width: none; max-height: calc(100vh - 32px); overflow: auto; padding: 36px 32px 30px; border: 1px solid var(--line); border-radius: var(--radius-card); background: #FFFFFF; color: var(--body); font-family: var(--font); font-size: var(--fs-body); line-height: 1.6; box-shadow: 0 40px 80px rgba(15, 60, 50, 0.28); }
-.beta-dialog::backdrop { background: rgba(11, 31, 28, 0.55); }
-.beta-dialog h2 { font-weight: 800; font-size: clamp(26px, 6vw, 32px); line-height: 1.15; color: var(--ink); letter-spacing: -0.03em; margin-bottom: 14px; }
-.beta-dialog p { font-size: 17px; overflow-wrap: anywhere; }
-.beta-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.beta-actions .btn { flex: 1 1 140px; }
-
 /* scroll reveal: the hidden state exists only after script.js adds the "js" class and marks an element "rv" */
 .js .rv { opacity: 0; transform: translateY(24px); }
 .js .rv.in { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease; transition-delay: var(--rd, 0ms); }
